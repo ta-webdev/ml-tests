@@ -1,4 +1,5 @@
 import math
+from collections import defaultdict
 
 def mean(arr):
   res = 0
@@ -6,6 +7,32 @@ def mean(arr):
     res += x
 
   res /= len(arr)
+
+  return res
+
+def mode(arr):
+  modes = mode_multi(arr)
+
+  if 1 == len(modes):
+    return modes[0]
+  else:
+    return None
+
+
+def mode_multi(arr):
+  dict = defaultdict(int)
+  res = []
+  max_count = -math.inf
+
+  for x in arr:
+    dict[x] += 1
+
+  for number, count in dict.items():
+    if count > max_count:
+      res = [number]
+      max_count = count
+    elif count == max_count:
+      res.append(number)
 
   return res
 
@@ -53,15 +80,7 @@ def ma_dev(arr):
 
 def r_squared(true_vals, pred_vals):
   true_vals_mean = mean(true_vals)
-  pred_vals_mean = mean(pred_vals)
-  ss_true_vals = ss_val(true_vals, true_vals_mean)
-  ss_pred_vals = ss_val(pred_vals, true_vals_mean)
-
-  # print('true_vals_mean', true_vals_mean)
-  # print('ss_pred_vals', ss_pred_vals)
-  # print('ss_true_vals', ss_true_vals)
-  # return (ss_pred_vals / ss_true_vals)
-
+  
   return 1 - (ss_arr(true_vals, pred_vals) / ss_val(true_vals, true_vals_mean))
 
 def lin_reg(arr):
